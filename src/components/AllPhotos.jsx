@@ -5,9 +5,8 @@ import { getSingleObject } from "../utils";
 
 export default class AllPhotos extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
-    console.log(props);
+    console.log(props.select);
   }
 
   render() {
@@ -16,7 +15,13 @@ export default class AllPhotos extends React.Component {
         <h1>hi</h1>
         {this.props.photos.map(photo => {
           console.log(photo.Key);
-          return <SinglePhoto photoKey={photo.Key} class="imageCell" />;
+          return (
+            <SinglePhoto
+              photoKey={photo.Key}
+              select={photo => this.props.select(photo)}
+              class="imageCell"
+            />
+          );
         })}
       </div>
     );

@@ -21,19 +21,15 @@ export default class App extends Component {
     if (this.state.currentView === "All") {
       listObjects().then(res => {
         this.setState({ photos: res, done: true });
-        console.log(this.state);
       });
     } else if (this.state.currentView === "Single") {
-      debugger;
-      getSingleObject(this.state.selectedPhoto).then(res => {
-        debugger;
-      });
+      getSingleObject(this.state.selectedPhoto).then(res => {});
     }
   }
 
-  selectPhoto(photo) {
-    this.setState({ currentView: "Single", selectPhoto: photo });
-  }
+  selectPhoto = photo => {
+    this.setState({ currentView: "Single", selectedPhoto: photo });
+  };
 
   unselectPhoto() {
     this.setState({ currentView: "All" });
@@ -46,7 +42,10 @@ export default class App extends Component {
         <Navbar />
         {this.state.done ? (
           this.state.currentView === "All" ? (
-            <AllPhotos photos={this.state.photos} />
+            <AllPhotos
+              photos={this.state.photos}
+              select={photo => this.selectPhoto(photo)}
+            />
           ) : (
             <SinglePhoto
               photo={this.state.selectedPhoto}
