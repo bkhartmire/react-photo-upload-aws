@@ -19,8 +19,13 @@ export default class SinglePhoto extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="imageCell">
         <img
+          onClick={this.props.select({
+            key: this.props.photoKey,
+            base64: this.state.base64
+          })}
+          className={"image " + this.props.class}
           src={`data:image/png;base64, ${this.state.base64}`}
           alt={this.props.photoKey}
         />

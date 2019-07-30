@@ -16,7 +16,7 @@ export default class AllPhotos extends React.Component {
         <h1>hi</h1>
         {this.props.photos.map(photo => {
           console.log(photo.Key);
-          return <SinglePhoto photoKey={photo.Key} />;
+          return <SinglePhoto photoKey={photo.Key} class="imageCell" />;
         })}
       </div>
     );

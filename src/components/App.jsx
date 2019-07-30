@@ -18,8 +18,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    //call to AS3
-    //Call setState() with pushes to photos
     if (this.state.currentView === "All") {
       listObjects().then(res => {
         this.setState({ photos: res, done: true });
@@ -33,15 +31,30 @@ export default class App extends Component {
     }
   }
 
+  selectPhoto(photo) {
+    this.setState({ currentView: "Single", selectPhoto: photo });
+  }
+
+  unselectPhoto() {
+    this.setState({ currentView: "All" });
+  }
+
   render() {
     return (
       <div className="app">
         <h1>Hello World!</h1>
         <Navbar />
         {this.state.done ? (
-          <AllPhotos photos={this.state.photos} />
+          this.state.currentView === "All" ? (
+            <AllPhotos photos={this.state.photos} />
+          ) : (
+            <SinglePhoto
+              photo={this.state.selectedPhoto}
+              class="single-photo"
+            />
+          )
         ) : (
-          <SinglePhoto photo={this.state.selectedPhoto} />
+          <p>Waiting on photos...</p>
         )}
       </div>
     );
