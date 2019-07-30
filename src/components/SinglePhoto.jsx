@@ -5,7 +5,7 @@ export default class SinglePhoto extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      base64: "",
+      base64: undefined,
       done: false
     };
   }
@@ -27,7 +27,11 @@ export default class SinglePhoto extends React.Component {
             })
           }
           className={"image " + this.props.class}
-          src={`data:image/png;base64, ${this.state.base64}`}
+          src={
+            this.props.photo
+              ? `data:image/png;base64,  ${this.props.photo.base64}`
+              : `data:image/png;base64,  ${this.state.base64}`
+          }
           alt={this.props.photoKey}
         />
       </div>
