@@ -8,6 +8,10 @@ export default class Navbar extends Component {
   }
 
   render() {
-    return <div className="navbar" />;
+    return (
+      <div className="navbar">
+        <a onClick={() => this.props.unselect()}>All Photos</a>
+      </div>
+    );
   }
 }
