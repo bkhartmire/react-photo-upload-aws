@@ -1,4 +1,6 @@
 /* global AWS */
+const AWS = require("aws-sdk");
+
 const bucketName = "react.sprint";
 const identityPoolId = "ap-northeast-1:131db146-e5b9-4f7b-8b58-d0c59e2deeaf";
 
@@ -6,14 +8,14 @@ const identityPoolId = "ap-northeast-1:131db146-e5b9-4f7b-8b58-d0c59e2deeaf";
 AWS.config.update({
   region: "ap-northeast-1",
   credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: identityPoolId,
-  }),
+    IdentityPoolId: identityPoolId
+  })
 });
 
 const bucket = new AWS.S3({
   params: {
-    Bucket: bucketName,
-  },
+    Bucket: bucketName
+  }
 });
 
 const textDecoder = new TextDecoder("utf8");
@@ -38,7 +40,7 @@ export function getSingleObject(key) {
     bucket.getObject(
       {
         Bucket: bucketName,
-        Key: key,
+        Key: key
       },
       (error, data) => {
         if (error) {
@@ -60,7 +62,7 @@ export function saveObject(file) {
       {
         Key: file.name,
         Body: file,
-        ACL: "public-read",
+        ACL: "public-read"
       },
       (error, data) => {
         if (error) {
