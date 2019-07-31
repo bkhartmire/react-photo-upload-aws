@@ -39,7 +39,10 @@ export default class App extends Component {
     return (
       <div className="app">
         <h1>Hello World!</h1>
-        <Navbar unselect={() => this.unselectPhoto()} />
+        <Navbar
+          unselect={() => this.unselectPhoto()}
+          select={photo => this.selectPhoto(photo)}
+        />
         {this.state.done ? (
           this.state.currentView === "All" ? (
             <AllPhotos

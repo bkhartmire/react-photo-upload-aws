@@ -3,8 +3,8 @@
 }
 
 input {
-  position: absolute;
-  left: -99999999px;
+  position: relative;
+  /* left: -99999999px; */
 }
 
 button {

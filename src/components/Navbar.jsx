@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../styles/navbar.css";
+import Upload from "./Upload.jsx";
 const _ = require("lodash");
 
 export default class Navbar extends Component {
@@ -10,7 +11,10 @@ export default class Navbar extends Component {
   render() {
     return (
       <div className="navbar">
-        <a onClick={() => this.props.unselect()}>All Photos</a>
+        <a className="navbar-header" onClick={() => this.props.unselect()}>
+          All Photos
+        </a>
+        <Upload select={photo => this.props.select(photo)} />
       </div>
     );
   }

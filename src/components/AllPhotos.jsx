@@ -12,9 +12,7 @@ export default class AllPhotos extends React.Component {
   render() {
     return (
       <div>
-        <h1>hi</h1>
         {this.props.photos.map(photo => {
-          console.log(photo.Key);
           return (
             <SinglePhoto
               photoKey={photo.Key}
