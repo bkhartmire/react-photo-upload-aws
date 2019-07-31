@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
 import "../styles/styles.css";
 import Navbar from "./Navbar";
 import AllPhotos from "./AllPhotos";
 import SinglePhoto from "./SinglePhoto";
-import { listObjects, getSingleObject, saveObject } from "../utils/index.js";
+import { listObjects, getSingleObject } from "../utils/index.js";
 
 export default class App extends Component {
   constructor(props) {
@@ -38,7 +37,6 @@ export default class App extends Component {
   render() {
     return (
       <div className="app">
-        <h1>Hello World!</h1>
         <Navbar
           title={this.state.selectedPhoto.title}
           unselect={() => this.unselectPhoto()}

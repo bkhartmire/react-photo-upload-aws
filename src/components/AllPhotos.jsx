@@ -1,23 +1,17 @@
 import React, { Component } from "react";
-import _ from "lodash";
 import SinglePhoto from "./SinglePhoto";
-import { getSingleObject } from "../utils";
 
-export default class AllPhotos extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props.select);
-  }
-
+export default class AllPhotos extends Component {
   render() {
     return (
       <div>
-        {this.props.photos.map(photo => {
+        {this.props.photos.map((photo, index) => {
           return (
             <SinglePhoto
               photoKey={photo.Key}
               select={photo => this.props.select(photo)}
               selected={false}
+              key={index}
               class="imageCell"
             />
           );

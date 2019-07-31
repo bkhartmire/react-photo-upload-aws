@@ -23,7 +23,6 @@ body {
 }
 
 .file-upload {
-  float: left;
   display: inline;
   position: relative;
 }

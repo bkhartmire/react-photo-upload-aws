@@ -1,4 +1,3 @@
-/* global AWS */
 const AWS = require("aws-sdk");
 
 const bucketName = "react.sprint";
@@ -17,8 +16,6 @@ const bucket = new AWS.S3({
     Bucket: bucketName
   }
 });
-
-const textDecoder = new TextDecoder("utf8");
 
 export function listObjects() {
   const listObjects = new Promise((resolve, reject) => {

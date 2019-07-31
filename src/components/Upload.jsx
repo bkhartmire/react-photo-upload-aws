@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import _ from "lodash";
 import "../styles/upload.css";
 import { saveObject, getSingleObject } from "../utils/index.js";
 
