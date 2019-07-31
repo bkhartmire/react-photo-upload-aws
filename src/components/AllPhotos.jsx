@@ -17,6 +17,7 @@ export default class AllPhotos extends React.Component {
             <SinglePhoto
               photoKey={photo.Key}
               select={photo => this.props.select(photo)}
+              selected={false}
               class="imageCell"
             />
           );

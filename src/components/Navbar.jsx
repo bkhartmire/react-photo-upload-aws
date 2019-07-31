@@ -11,9 +11,14 @@ export default class Navbar extends Component {
   render() {
     return (
       <div className="navbar">
-        <a className="navbar-header" onClick={() => this.props.unselect()}>
+        <p className="navbar-header" onClick={() => this.props.unselect()}>
           All Photos
-        </a>
+        </p>
+        {this.props.title.length > 0 ? (
+          <p className="pic-title">{this.props.title}</p>
+        ) : (
+          <p />
+        )}
         <Upload select={photo => this.props.select(photo)} />
       </div>
     );

@@ -6,7 +6,8 @@ export default class SinglePhoto extends React.Component {
     super(props);
     this.state = {
       base64: undefined,
-      done: false
+      done: false,
+      selected: false
     };
   }
 
@@ -20,12 +21,14 @@ export default class SinglePhoto extends React.Component {
     return (
       <div className="imageCell">
         <img
-          onClick={() =>
-            this.props.select({
-              key: this.props.photoKey,
-              base64: this.state.base64
-            })
-          }
+          onClick={() => {
+            if (!this.props.selected) {
+              this.props.select({
+                title: this.props.photoKey,
+                base64: this.state.base64
+              });
+            }
+          }}
           className={"image " + this.props.class}
           src={
             this.props.photo

@@ -14,3 +14,9 @@
 a {
   position: relative;
 }
+
+.pic-title {
+  position: relative;
+  width: 50%;
+  margin: auto;
+}

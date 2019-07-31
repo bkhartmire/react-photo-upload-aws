@@ -12,7 +12,7 @@ export default class App extends Component {
     this.state = {
       currentView: "All", //or 'Single'
       photos: [],
-      selectedPhoto: { key: "0.jpg", base64: "" }, //key
+      selectedPhoto: { title: "", base64: "" }, //key
       done: false
     };
   }
@@ -32,7 +32,7 @@ export default class App extends Component {
   };
 
   unselectPhoto() {
-    this.setState({ currentView: "All" });
+    this.setState({ currentView: "All", selectedPhoto: { title: "" } });
   }
 
   render() {
@@ -40,6 +40,7 @@ export default class App extends Component {
       <div className="app">
         <h1>Hello World!</h1>
         <Navbar
+          title={this.state.selectedPhoto.title}
           unselect={() => this.unselectPhoto()}
           select={photo => this.selectPhoto(photo)}
         />
@@ -52,6 +53,7 @@ export default class App extends Component {
           ) : (
             <SinglePhoto
               photo={this.state.selectedPhoto}
+              selected={true}
               class="single-photo"
             />
           )

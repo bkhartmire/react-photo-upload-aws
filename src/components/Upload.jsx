@@ -18,7 +18,7 @@ export default class Upload extends Component {
     saveObject(file)
       .then(() => {
         getSingleObject(file.name).then(res => {
-          props.select({ key: file.name, base64: res });
+          props.select({ title: file.name, base64: res });
         });
       })
       .catch(err => {
