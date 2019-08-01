@@ -17,6 +17,16 @@ export default class Upload extends Component {
     saveObject(file)
       .then(() => {
         getSingleObject(file.name).then(res => {
+          // const lsPhotoKeys = window.localStorage.getItem("photoKeys");
+          // window.localStorage.setItem(
+          //   "photoKeys",
+          //   JSON.stringify([...lsPhotoKeys, file.name])
+          // );
+          // const lsBase64s = window.localStorage.getItem("base64s");
+          window.localStorage.clear();
+          //   "base64s",
+          //   JSON.stringify([...lsBase64s, res])
+          // );
           props.select({ title: file.name, base64: res });
         });
       })
