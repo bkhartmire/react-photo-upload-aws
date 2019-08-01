@@ -7,8 +7,11 @@ import { listObjects, getSingleObject } from "../utils/index.js";
 
 export default class App extends Component {
   constructor(props) {
-    if (!window.localStorage.getItem("photos"))
+    if (!window.localStorage.getItem("photos")) {
       window.localStorage.setItem("photos", JSON.stringify([]));
+      window.localStorage.setItem("base64s", JSON.stringify([]));
+      window.localStorage.setItem("photoKeys", JSON.stringify([]));
+    }
     super(props);
     this.state = {
       currentView: "All", //or 'Single'
@@ -19,7 +22,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // debugger;
     if (this.state.currentView === "All") {
       if (JSON.parse(window.localStorage.getItem("photos")).length === 0) {
         console.log("inside!");
@@ -52,6 +54,15 @@ export default class App extends Component {
     this.setState({ currentView: "All", selectedPhoto: { title: "" } });
   }
 
+  includesBase64(photoKey) {
+    const lsPhotoKeys = JSON.parse(window.localStorage.getItem("photoKeys"));
+    if (lsPhotoKeys.includes(photoKey)) {
+      const index = lsPhotoKeys.indexOf(photoKey);
+      return JSON.parse(window.localStorage.getItem("base64s"))[index];
+    }
+    return false;
+  }
+
   render() {
     return (
       <div className="app">
@@ -65,12 +76,14 @@ export default class App extends Component {
             <AllPhotos
               photos={this.state.photos}
               select={photo => this.selectPhoto(photo)}
+              includesBase64={photoKey => this.includesBase64(photoKey)}
             />
           ) : (
             <SinglePhoto
               photo={this.state.selectedPhoto}
               selected={true}
               class="single-photo"
+              includesBase64={photoKey => this.includesBase64(photoKey)}
             />
           )
         ) : (

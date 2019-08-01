@@ -12,25 +12,12 @@ export default class SinglePhoto extends React.Component {
   }
 
   componentDidMount() {
-    // debugger;
-    const lsPhotos = JSON.parse(window.localStorage.getItem("photos"));
-    const photoObj = lsPhotos.find(x => {
-      return x.ETag === this.props.photoTag;
-    });
-    if (photoObj.base64) {
-      console.log("base64 present");
-      this.setState({ done: true, base64: lsPhotos.base64 });
+    const base64 = this.props.includesBase64(this.props.photoKey);
+    if (base64) {
+      this.setState({ done: true, base64: base64 });
     } else {
-      // debugger;
-      console.log("base64 missing");
       getSingleObject(this.props.photoKey).then(res => {
-        debugger;
-        // photoObj.base64 = res;
-        lsPhotos[lsPhotos.indexOf(photoObj)] = Object.assign(photoObj, {
-          base64: res
-        });
-        // lsPhotos.push(res);
-        window.localStorage.setItem("photos", JSON.stringify(lsPhotos));
+        this.props.insertBase64(res, this.props.photoKey);
         this.setState({ done: true, base64: res });
       });
     }
