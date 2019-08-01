@@ -4,6 +4,8 @@
 
 input {
   position: relative;
+  font-size: 1em;
+  margin: auto;
   /* left: -99999999px; */
 }
 

@@ -1,14 +1,23 @@
 .navbar {
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
-  background-color: #1c7e88;
+  background-color: navy;
   text-align: center;
 }
 
 .navbar-header {
   cursor: pointer;
   margin-right: auto;
+  color: ghostwhite;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 2em;
+  text-decoration: underline;
+}
+
+.navbar-header:hover {
+  color: gold;
 }
 
 a {

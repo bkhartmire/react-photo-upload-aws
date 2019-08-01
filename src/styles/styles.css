@@ -12,9 +12,16 @@ body {
 }
 
 .image {
+  border: 2px solid slategray;
+  box-shadow: 10px 5px 5px slategray;
   cursor: pointer;
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
+}
+
+.image:hover {
+  border: 2px solid gold;
+  box-shadow: 10px 5px 5px goldenrod;
 }
 
 .image.single-photo {
@@ -23,6 +30,10 @@ body {
 }
 
 .file-upload {
-  display: inline;
+  color: ghostwhite;
+  display: block;
   position: relative;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
