@@ -7,6 +7,8 @@ import { listObjects, getSingleObject } from "../utils/index.js";
 
 export default class App extends Component {
   constructor(props) {
+    if (!window.localStorage.getItem("photos"))
+      window.localStorage.setItem("photos", JSON.stringify([]));
     super(props);
     this.state = {
       currentView: "All", //or 'Single'
@@ -18,9 +20,21 @@ export default class App extends Component {
 
   componentDidMount() {
     if (this.state.currentView === "All") {
-      listObjects().then(res => {
-        this.setState({ photos: res, done: true });
-      });
+      if (JSON.parse(window.localStorage.getItem("photos")).length === 0) {
+        console.log("inside!");
+        listObjects().then(res => {
+          window.localStorage.setItem("photos", JSON.stringify(res));
+          this.setState({ photos: res, done: true });
+        });
+      } else if (
+        this.state.photos.length < 1 &&
+        JSON.parse(window.localStorage.getItem("photos")).length > 0
+      ) {
+        this.setState({
+          photos: JSON.parse(window.localStorage.getItem("photos")),
+          done: true
+        });
+      }
     } else if (this.state.currentView === "Single") {
       getSingleObject(this.state.selectedPhoto).then(res => {});
     }
