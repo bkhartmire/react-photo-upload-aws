@@ -25,7 +25,9 @@ a {
 }
 
 .pic-title {
+  color: ghostwhite;
   position: relative;
   width: 50%;
   margin: auto;
+  font-size: 2em;
 }
