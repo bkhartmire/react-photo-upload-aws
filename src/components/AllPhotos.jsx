@@ -9,6 +9,7 @@ export default class AllPhotos extends Component {
           return (
             <SinglePhoto
               photoKey={photo.Key}
+              photoTag={photo.ETag}
               select={photo => this.props.select(photo)}
               selected={false}
               key={index}
