@@ -19,12 +19,16 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    // debugger;
     if (this.state.currentView === "All") {
       if (JSON.parse(window.localStorage.getItem("photos")).length === 0) {
         console.log("inside!");
         listObjects().then(res => {
-          window.localStorage.setItem("photos", JSON.stringify(res));
-          this.setState({ photos: res, done: true });
+          window.localStorage.setItem(
+            "photos",
+            JSON.stringify(res.slice(0, 20))
+          );
+          this.setState({ photos: res.slice(0, 20), done: true });
         });
       } else if (
         this.state.photos.length < 1 &&
