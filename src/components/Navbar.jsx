@@ -6,7 +6,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <div className="navbar">
-        <p className="navbar-header" onClick={() => this.props.unselect()}>
+        <p className="navbar-header" onClick={() => this.props.viewAll()}>
           All Photos
         </p>
         {this.props.title.length > 0 ? (

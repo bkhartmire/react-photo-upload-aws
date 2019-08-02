@@ -1,94 +1,30 @@
 import React, { Component } from "react";
 import "../styles/styles.css";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 import AllPhotos from "./AllPhotos";
 import SinglePhoto from "./SinglePhoto";
-import { listObjects, getSingleObject } from "../utils/index.js";
+import { connect } from "react-redux";
+import { fetchPhotos } from "../redux";
 
-export default class App extends Component {
-  constructor(props) {
-    if (!window.localStorage.getItem("photos")) {
-      window.localStorage.setItem("photos", JSON.stringify([]));
-      window.localStorage.setItem("base64s", JSON.stringify([]));
-      window.localStorage.setItem("photoKeys", JSON.stringify([]));
-    }
-    super(props);
-    this.state = {
-      currentView: "All", //or 'Single'
-      photos: [],
-      selectedPhoto: { title: "", base64: "" }, //key
-      done: false
-    };
-  }
-
+class App extends Component {
   componentDidMount() {
-    this.componentDidUpdate();
+    if (this.props.currentView === "All") fetchPhotos();
   }
-
-  componentDidUpdate() {
-    if (this.state.currentView === "All") {
-      if (
-        !JSON.parse(window.localStorage.getItem("photos")) ||
-        JSON.parse(window.localStorage.getItem("photos")).length === 0
-      ) {
-        console.log("inside!");
-        listObjects().then(res => {
-          window.localStorage.setItem(
-            "photos",
-            JSON.stringify(res.slice(0, 20))
-          );
-          this.setState({ photos: res.slice(0, 20), done: true });
-        });
-      } else if (
-        this.state.photos.length < 1 &&
-        JSON.parse(window.localStorage.getItem("photos")).length > 0
-      ) {
-        this.setState({
-          photos: JSON.parse(window.localStorage.getItem("photos")),
-          done: true
-        });
-      }
-    } else if (this.state.currentView === "Single") {
-      getSingleObject(this.state.selectedPhoto).then(res => {});
-    }
-  }
-
-  selectPhoto = photo => {
-    this.setState({ currentView: "Single", selectedPhoto: photo });
-  };
-
-  unselectPhoto() {
-    this.setState({ currentView: "All", selectedPhoto: { title: "" } });
-  }
-
-  includesBase64(photoKey) {
-    const lsPhotoKeys = JSON.parse(window.localStorage.getItem("photoKeys"));
-    if (lsPhotoKeys && lsPhotoKeys.includes(photoKey)) {
-      const index = lsPhotoKeys.indexOf(photoKey);
-      return JSON.parse(window.localStorage.getItem("base64s"))[index];
-    }
-    return false;
-  }
-
   render() {
     return (
       <div className="app">
-        <Navbar
+        {/* <Navbar
           title={this.state.selectedPhoto.title}
-          unselect={() => this.unselectPhoto()}
+          viewAll={() => this.viewAll()}
           select={photo => this.selectPhoto(photo)}
-        />
-        {this.state.done ? (
-          this.state.currentView === "All" ? (
-            <AllPhotos
-              photos={this.state.photos}
-              select={photo => this.selectPhoto(photo)}
-              includesBase64={photoKey => this.includesBase64(photoKey)}
-            />
+        /> */}
+        {this.props.photos.length > 0 ? (
+          this.props.currentView === "All" ? (
+            <AllPhotos photos={this.props.photos} />
           ) : (
             <SinglePhoto
-              photo={this.state.selectedPhoto}
-              photoKey={this.state.selectedPhoto.title}
+              url={this.props.selectedPhoto.url}
+              fileName={this.props.selectedPhoto.fileName}
               selected={true}
               class="single-photo"
               includesBase64={photoKey => this.includesBase64(photoKey)}
@@ -101,3 +37,13 @@ export default class App extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    photos: state.photos,
+    currentView: state.currentView,
+    selectedPhoto: state.selectedPhoto
+  };
+};
+
+export default connect(mapStateToProps)(App);
