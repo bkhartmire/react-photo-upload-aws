@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import SinglePhoto from "./SinglePhoto";
+import { SinglePhoto } from "./SinglePhoto";
+import { connect } from "react-redux";
 
-export default class AllPhotos extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      base64Array: [],
-      photoKeys: []
-    };
-  }
+export class AllPhotos extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     base64Array: [],
+  //     photoKeys: []
+  //   };
+  // }
 
   insertBase64(string, photoKey) {
     this.setState({
@@ -18,8 +19,8 @@ export default class AllPhotos extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.photoKeys.length === this.props.photos.length) {
-      const result = JSON.stringify(this.state.base64Array);
+    if (this.props.photoKeys.length === this.props.photos.length) {
+      const result = JSON.stringify(this.props.base64Array);
       window.localStorage.setItem("base64s", result);
     }
   }
@@ -47,3 +48,13 @@ export default class AllPhotos extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    photos: state.photos
+    // base64array: state.base64Array,
+    // photoKeys: state.photoKeys
+  };
+};
+
+export default connect(mapStateToProps)(AllPhotos);

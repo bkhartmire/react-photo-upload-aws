@@ -1,7 +1,7 @@
 import React from "react";
 import { getSingleObject } from "../utils/index";
 
-export default class SinglePhoto extends React.Component {
+export class SinglePhoto extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,13 @@ export default class SinglePhoto extends React.Component {
       this.setState({ done: true, base64: base64 });
     } else {
       getSingleObject(this.props.photoKey).then(res => {
-        this.props.insertBase64(res, this.props.photoKey);
+        // this.props.insertBase64(res, this.props.photoKey);
+        const JS = JSON.stringify;
+        const JP = JSON.parse;
+        let lsB64 = window.localStorage.base64;
+        lsB64 = JS([...JP(lsB64), res]);
+        let lsPhotoKeys = window.localStorage.photoKeys;
+        lsPhotoKeys = JS([...JP(lsPhotoKeys), res]);
         this.setState({ done: true, base64: res });
       });
     }
@@ -47,3 +53,15 @@ export default class SinglePhoto extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getPhotos: () => dispatch(getPhotos()),
+    fetchPhotos: () => dispatch(fetchPhotos())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SinglePhoto);
