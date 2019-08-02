@@ -28,7 +28,7 @@ export class AllPhotos extends Component {
   render() {
     return (
       <div>
-        {this.props.photos.map((photo, index) => {
+        {JSON.parse(window.localStorage.photos).map((photo, index) => {
           return (
             <SinglePhoto
               photoKey={photo.Key}
@@ -37,7 +37,6 @@ export class AllPhotos extends Component {
                 this.insertBase64(string, photoKey)
               }
               includesBase64={photoKey => this.props.includesBase64(photoKey)}
-              select={photo => this.props.select(photo)}
               selected={false}
               key={index}
               class="imageCell"

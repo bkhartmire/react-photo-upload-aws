@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import { getSingleObject } from "../utils/index";
+import { selectPhoto } from "../redux";
 
 export class SinglePhoto extends React.Component {
   constructor(props) {
@@ -12,6 +14,7 @@ export class SinglePhoto extends React.Component {
   }
 
   componentDidMount() {
+    // debugger;
     const base64 = this.props.includesBase64(this.props.photoKey);
     if (base64) {
       this.setState({ done: true, base64: base64 });
@@ -20,10 +23,11 @@ export class SinglePhoto extends React.Component {
         // this.props.insertBase64(res, this.props.photoKey);
         const JS = JSON.stringify;
         const JP = JSON.parse;
-        let lsB64 = window.localStorage.base64;
-        lsB64 = JS([...JP(lsB64), res]);
+        let lsB64 = window.localStorage.base64s;
+        const parsedString = JP(lsB64);
+        lsB64 = JS([...parsedString, res]);
         let lsPhotoKeys = window.localStorage.photoKeys;
-        lsPhotoKeys = JS([...JP(lsPhotoKeys), res]);
+        lsPhotoKeys = JS([...JP(lsPhotoKeys), this.props.photoKey]);
         this.setState({ done: true, base64: res });
       });
     }
@@ -56,8 +60,7 @@ export class SinglePhoto extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPhotos: () => dispatch(getPhotos()),
-    fetchPhotos: () => dispatch(fetchPhotos())
+    selectPhoto: () => dispatch(selectPhoto())
   };
 };
 

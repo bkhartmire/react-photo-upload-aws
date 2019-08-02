@@ -3,7 +3,7 @@ import "../styles/styles.css";
 import Navbar from "./Navbar";
 import { AllPhotos } from "./AllPhotos";
 import { SinglePhoto } from "./SinglePhoto";
-// import { listObjects, getSingleObject } from "../utils/index.js";
+import { getSingleObject, listObjects } from "../utils/index.js";
 import { connect } from "react-redux";
 import { getPhotos, fetchPhotos } from "../redux";
 
@@ -36,11 +36,16 @@ class App extends Component {
         this.props.photos.length < 1 &&
         JSON.parse(window.localStorage.getItem("photos")).length > 0
       ) {
-        this.props.getPhotos();
-        // this.setState({
-        //   photos: JSON.parse(window.localStorage.getItem("photos")),
-        //   done: true
-        // });
+        // this.props.getPhotos();
+        listObjects().then(res => {
+          window.localStorage.setItem(
+            "photos",
+            JSON.stringify(res.slice(0, 20))
+          );
+          this.setState({
+            done: true
+          });
+        });
       }
     } else if (this.state.currentView === "Single") {
       getSingleObject(this.state.selectedPhoto).then(res => {});
@@ -60,26 +65,27 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Navbar
+        {/* <Navbar
           title={this.state.selectedPhoto.title}
           viewAll={() => this.viewAll()}
           select={photo => this.selectPhoto(photo)}
-        />
+        /> */}
         {this.state.done ? (
-          this.state.currentView === "All" ? (
+          this.props.currentView === "All" ? (
             <AllPhotos
               // photos={this.state.photos}
               // select={photo => this.selectPhoto(photo)}
               includesBase64={photoKey => this.includesBase64(photoKey)}
             />
           ) : (
-            <SinglePhoto
-              photo={this.state.selectedPhoto}
-              photoKey={this.state.selectedPhoto.title}
-              selected={true}
-              class="single-photo"
-              includesBase64={photoKey => this.includesBase64(photoKey)}
-            />
+            <p>Single Photo goes here.</p>
+            // <SinglePhoto
+            //   photo={this.state.selectedPhoto}
+            //   photoKey={this.state.selectedPhoto.title}
+            //   selected={true}
+            //   class="single-photo"
+            //   includesBase64={photoKey => this.includesBase64(photoKey)}
+            // />
           )
         ) : (
           <p>Waiting on photos...</p>
