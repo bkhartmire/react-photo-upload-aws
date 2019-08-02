@@ -1,35 +1,15 @@
 import React, { Component } from "react";
-import { SinglePhoto } from "./SinglePhoto";
-import { connect } from "react-redux";
+import SinglePhoto from "./SinglePhoto";
 
-export class AllPhotos extends Component {
-  componentDidMount() {
-    debugger;
-  }
-  componentDidUpdate() {
-    debugger;
-  }
-
-  // componentDidUpdate() {
-  //   // debugger;
-  //   // if (JSON.parse(window.localStorage.getItem("photoKeys")).length === 20) {
-  //   //   const result = JSON.stringify(this.props.base64Array);
-  //   //   window.localStorage.setItem("base64s", result);
-  //   // }
-  // }
-
+export default class AllPhotos extends Component {
   render() {
     return (
       <div>
         {this.props.photos.map((photo, index) => {
           return (
             <SinglePhoto
-              fileName={photo.Key}
-              // photoTag={photo.ETag}
-              // insertBase64={(string, photoKey) =>
-              //   this.insertBase64(string, photoKey)
-              // }
-              // includesBase64={photoKey => this.props.includesBase64(photoKey)}
+              fileName={photo.fileName}
+              url={photo.url}
               selected={false}
               key={index}
               class="imageCell"
@@ -40,15 +20,3 @@ export class AllPhotos extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    photos: state.photos,
-    loading: state.loading
-
-    // base64array: state.base64Array,
-    // photoKeys: state.photoKeys
-  };
-};
-
-export default connect(mapStateToProps)(AllPhotos);

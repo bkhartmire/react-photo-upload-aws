@@ -1,21 +1,17 @@
 import { listObjects } from "./utils";
 import { store } from "./index";
 
-// const redux = require("redux");
-
 const initialState = {
   photos: [],
   currentView: "All",
   selectedPhoto: {},
-  base64Array: [],
-  // photoKeys: [],
   loading: false
 };
 
-export const selectPhoto = photoObj => {
+export const selectPhoto = photo => {
   return {
     type: "SELECT_PHOTO",
-    payload: photoObj
+    payload: photo
   };
 };
 
@@ -25,26 +21,17 @@ export const viewAll = () => {
   };
 };
 
-export const insertBase64 = base64str => {
-  return {
-    type: "INSERT_BASE64",
-    payload: base64str
-  };
-};
-
-// export const getPhotos = () => {
-//   return {
-//     type: "GET_PHOTOS",
-//     payload: JSON.parse(window.localStorage.getItem("photos"))
-//   };
-// };
 export const fetchPhotos = () => {
   listObjects().then(res => {
-    debugger;
-    // window.localStorage.setItem("photos", JSON.stringify(res.slice(0, 20)));
+    const photos = res.map(photo => {
+      return {
+        fileName: photo.Key,
+        url: encodeURI(`http://react.sprint.s3.amazonaws.com/${photo.Key}`)
+      };
+    });
     store.dispatch({
       type: "FETCH_PHOTOS",
-      payload: res.slice(0, 20)
+      payload: photos.slice(0, 20)
     });
   });
 };
@@ -58,25 +45,17 @@ export const reducer = (state = initialState, action) => {
         selectedPhoto: action.payload,
         currentView: "Single"
       });
-
     case "VIEW_ALL":
       return Object.assign({}, state, {
         selectedPhoto: {},
         currentView: "All",
         loading: true
       });
-
     case "FETCH_PHOTOS":
       return Object.assign({}, state, {
         photos: action.payload,
         loading: false
       });
-
-    case "INSERT_BASE64":
-      return Object.assign({}, state, {
-        base64Array: [...state.base64Array, action.payload]
-      });
-
     default:
       return state;
   }

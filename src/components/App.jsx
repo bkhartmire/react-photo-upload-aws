@@ -1,34 +1,15 @@
 import React, { Component } from "react";
 import "../styles/styles.css";
 // import Navbar from "./Navbar";
-import { AllPhotos } from "./AllPhotos";
-// import { SinglePhoto } from "./SinglePhoto";
-// import { getSingleObject, listObjects } from "../utils/index.js";
+import AllPhotos from "./AllPhotos";
+import SinglePhoto from "./SinglePhoto";
 import { connect } from "react-redux";
 import { fetchPhotos } from "../redux";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    // debugger;
-    this.state = {
-      done: false
-    };
-  }
   componentDidMount() {
-    if (this.props.currentView === "All") {
-      this.props.load();
-      fetchPhotos();
-      this.setState({ done: true });
-    }
-    // else {
-    //   handle single photo
-    // }
+    if (this.props.currentView === "All") fetchPhotos();
   }
-  componentDidUpdate() {
-    debugger;
-  }
-
   render() {
     return (
       <div className="app">
@@ -37,22 +18,17 @@ class App extends Component {
           viewAll={() => this.viewAll()}
           select={photo => this.selectPhoto(photo)}
         /> */}
-        {!this.props.loading && this.state.done ? (
+        {this.props.photos.length > 0 ? (
           this.props.currentView === "All" ? (
-            <AllPhotos
-            // photos={this.state.photos}
-            // select={photo => this.selectPhoto(photo)}
-            // includesBase64={photoKey => this.includesBase64(photoKey)}
-            />
+            <AllPhotos photos={this.props.photos} />
           ) : (
-            <p>Single Photo goes here.</p>
-            // <SinglePhoto
-            //   photo={this.state.selectedPhoto}
-            //   photoKey={this.state.selectedPhoto.title}
-            //   selected={true}
-            //   class="single-photo"
-            //   includesBase64={photoKey => this.includesBase64(photoKey)}
-            // />
+            <SinglePhoto
+              url={this.props.selectedPhoto.url}
+              fileName={this.props.selectedPhoto.fileName}
+              selected={true}
+              class="single-photo"
+              includesBase64={photoKey => this.includesBase64(photoKey)}
+            />
           )
         ) : (
           <p>Waiting on photos...</p>
@@ -64,21 +40,10 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    // photos: state.photos,
+    photos: state.photos,
     currentView: state.currentView,
-    selectedPhoto: state.selectedPhoto,
-    loading: state.loading
+    selectedPhoto: state.selectedPhoto
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    load: () => dispatch({ type: "LOADING" })
-    // fetchPhotos: () => dispatch(fetchPhotos())
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps)(App);
