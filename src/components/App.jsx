@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../styles/styles.css";
-// import Navbar from "./Navbar";
+import Navbar from "./Navbar";
 import AllPhotos from "./AllPhotos";
 import SinglePhoto from "./SinglePhoto";
 import { connect } from "react-redux";
@@ -13,11 +13,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        {/* <Navbar
-          title={this.state.selectedPhoto.title}
-          viewAll={() => this.viewAll()}
-          select={photo => this.selectPhoto(photo)}
-        /> */}
+        <Navbar title={this.props.selectedPhoto.fileName} />
         {this.props.photos.length > 0 ? (
           this.props.currentView === "All" ? (
             <AllPhotos photos={this.props.photos} />
