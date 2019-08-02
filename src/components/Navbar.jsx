@@ -1,21 +1,34 @@
 import React, { Component } from "react";
 import "../styles/navbar.css";
 import Upload from "./Upload.jsx";
+import { viewAll } from "../redux";
+import { connect } from "react-redux";
 
-export default class Navbar extends Component {
+class Navbar extends Component {
   render() {
     return (
       <div className="navbar">
-        <p className="navbar-header" onClick={() => this.props.viewAll()}>
+        <p className="navbar-header" onClick={this.props.viewAll}>
           All Photos
         </p>
-        {this.props.title.length > 0 ? (
+        {this.props.title ? (
           <p className="pic-title">{this.props.title}</p>
         ) : (
           <p />
         )}
-        <Upload select={photo => this.props.select(photo)} />
+        <Upload />
       </div>
     );
   }
 }
+
+const mapDispatchToAction = dispatch => {
+  return {
+    viewAll: () => dispatch(viewAll())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToAction
+)(Navbar);

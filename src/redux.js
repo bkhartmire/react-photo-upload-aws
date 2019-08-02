@@ -21,6 +21,13 @@ export const viewAll = () => {
   };
 };
 
+export const uploadPhoto = photo => {
+  return {
+    type: "UPLOAD_PHOTO",
+    payload: photo
+  };
+};
+
 export const fetchPhotos = () => {
   listObjects().then(res => {
     const photos = res.map(photo => {
@@ -31,7 +38,7 @@ export const fetchPhotos = () => {
     });
     store.dispatch({
       type: "FETCH_PHOTOS",
-      payload: photos.slice(0, 20)
+      payload: photos
     });
   });
 };
@@ -55,6 +62,12 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         photos: action.payload,
         loading: false
+      });
+    case "UPLOAD_PHOTO":
+      return Object.assign({}, state, {
+        photos: [...state.photos, action.payload],
+        selectedPhoto: action.payload,
+        currentView: "Single"
       });
     default:
       return state;
